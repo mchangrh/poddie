@@ -21,7 +21,7 @@ download_audio() {
 	mkdir -p "$target_dir"
 	
 	echo "poddie: Downloading audio files ..."
-	yt-dlp -x --audio-format mp3 -o "$target_dir/%(title)s.%(ext)s" --config-locations /config/poddie/yt-dlp.conf "$show_url"
+	yt-dlp -x -o "$target_dir/%(title)s.%(ext)s" --config-locations /config/poddie/yt-dlp.conf "$show_url"
 
 	chown -R $PUID:$PGID "$target_dir"
 	
