@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# symlink nginx
+if [ ! -d /config/www ]; then
+  mkdir -p /config/www
+fi
+
+# copy yt-dlp config
+if [ ! -f /config/poddie/yt-dlp.conf ]; then
+  cp /defaults/yt-dlp.conf /config/poddie/yt-dlp.conf
+fi
+
+# create poddie default
+if [ ! -f /config/poddie/config.yml ]; then
+  touch /config/poddie/config.yml
+fi

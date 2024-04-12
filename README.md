@@ -2,7 +2,7 @@
 
 Poddie is a self-hosted media downloader and podcast feed generator. 
 
-Poddie uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download the media files into a folder on the local machine (e.g. media server). It then invokes [podcats](https://github.com/jakubroztocil/podcats) to generate a podcast feed for the media files and serves it via the NGINX web server (it is based on the [LinuxServer.io NGINX Docker image](https://github.com/linuxserver/docker-nginx)). You can then subscribe to the podcast by adding the podcast feed in a podcast player of your choice.
+Poddie uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) to download the media files into a folder on the local machine (e.g. media server). It then invokes [podcats](https://github.com/jakubroztocil/podcats) to generate a podcast feed for the media files and serves it via the NGINX web server. You can then subscribe to the podcast by adding the podcast feed in a podcast player of your choice.
 
 At the heart of Poddie are:
 
@@ -71,7 +71,6 @@ shows:
     url: https://example.com/podcast # URL fed to yt-dlp, usually a playlist
     icon: https://example.com/podcast/cover.png # Cover art for the show
     description: A summary of what the show is about.
-    max_episodes: 20 # Optional. Corresponds to `--max-download` option for yt-dlp. Default = 10.
     
   - title: Another show
     url: https://example.com/another-show

@@ -1,33 +1,32 @@
-FROM ghcr.io/linuxserver/nginx:latest
+FROM alpine
 
 LABEL maintainer=austozi
 
-ENV PODDIE_TITLE=Podcasts
-ENV PODDIE_BASE_URL=http://localhost:5000
-ENV PODDIE_DESCRIPTION="Podcasts generated from downloaded media"
-ENV PODDIE_ICON=http://localhost:5000/icon.png
-ENV PODDIE_UPDATE_INTERVAL=12h
+ENV PODDIE_TITLE=Podcasts \
+	PODDIE_BASE_URL=http://localhost:5000 \
+	PODDIE_DESCRIPTION="Podcasts generated from downloaded media" \
+	PODDIE_ICON=http://localhost:5000/icon.png \
+	PODDIE_UPDATE_INTERVAL=12h \
+	PIP_BREAK_SYSTEM_PACKAGES=1 \
+	S6_VERBOSITY=1
 
-# Install base packages.
-RUN apk add --no-cache \
-	coreutils \
-	ffmpeg \
-	gcc \
-	g++ \
-	jq \
-	libc-dev \
-	python3-dev
+# Install base packages
+RUN \
+	apk add --no-cache \
+		aria2 \
+		bash \
+		coreutils \
+		ffmpeg \
+		jq \
+		nginx \
+		py3-pip \
+		s6-overlay && \
+	# pip dependencies
+	pip install -U \
+		niet \
+		yt-dlp \
+		podcats
 
-# Install latest pip.
-RUN python3 -m ensurepip
-RUN python3 -m pip install -U \
-	niet \
-	pip \
-	wheel \
-	yt-dlp \
-	podcats
+COPY --chmod=0755 /root/ /
 
-COPY ./root/ /
-
-RUN chmod +x /usr/local/bin/*
-RUN chmod +x /etc/cont-init.d/*
+ENTRYPOINT ["/init"]

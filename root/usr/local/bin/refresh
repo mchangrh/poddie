@@ -9,20 +9,19 @@
 
 update_ytdlp() {
 	echo "poddie: Auto-updating software tools..."
-	python3 -m pip install -U pip yt-dlp
+	pip install -U yt-dlp
 }
 
 download_audio() {
 	
 	local show_url="$1"
 	local slug="$2"
-	local max_episodes="$3"
 	local target_dir="/config/www/static/$slug"
 	
 	mkdir -p "$target_dir"
 	
-	echo "poddie: Downloading audio files (max: $max_episodes)..."
-	yt-dlp -x --audio-format mp3 -o "$target_dir/%(title)s.%(ext)s" --max-downloads "$max_episodes" "$show_url"
+	echo "poddie: Downloading audio files ..."
+	yt-dlp -x --audio-format mp3 -o "$target_dir/%(title)s.%(ext)s" --config-locations /config/poddie/yt-dlp.conf "$show_url"
 
 	chown -R $PUID:$PGID "$target_dir"
 	
@@ -35,11 +34,10 @@ process_show() {
 	local show_icon="$3"
 	local show_description="$4"
 	local slug="$5"
-	local max_episodes="$6"
 	
 	echo "poddie: Processing $show_title..."
 	
-	download_audio "$show_url" "$slug" "$max_episodes"
+	download_audio "$show_url" "$slug"
 	
 	generate_feed "$show_title" "$show_url" "$show_icon" "$show_description" "$slug"
 	
@@ -124,11 +122,7 @@ init() {
 		local show_icon=$(echo "$d" | jq -cr .icon)
 		local show_description=$(echo "$d" | jq -cr 'select(.description != null) | select(.description).description')
 		local slug=$(echo "$show_url" | md5sum | cut -d " " -f 1)
-		local max_episodes=$(echo "$d" | jq -cr 'select(.max_episodes != null) | select(.max_episodes).max_episodes')
-		if [ ! -n "$max_episodes" ]; then
-			max_episodes=10
-		fi
-		process_show "$show_title" "$show_url" "$show_icon" "$show_description" "$slug" "$max_episodes"
+		process_show "$show_title" "$show_url" "$show_icon" "$show_description" "$slug"
 	done
 	
 	generate_index

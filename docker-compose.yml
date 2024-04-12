@@ -1,4 +1,3 @@
-version: "2.4"
 services:
   podcasts:
     image: austozi/poddie:latest
@@ -15,6 +14,6 @@ services:
       PODDIE_UPDATE_INTERVAL: 12h
     volumes:
       - ./config/www:/config/www
-      - ./config/poddie:/config/poddie:ro
+      - ./config/poddie:/config/poddie
     ports:
       - 5000:80
