@@ -13,7 +13,8 @@ ENV PODDIE_TITLE=Podcasts \
 # Install base packages
 ADD \
 	https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp \
-	/usr/local/bin/yt-dlp
+	/usr/local/bin/yt-dlp \
+	--chmod 755
 RUN \
 	apk add --no-cache \
 		aria2 \
