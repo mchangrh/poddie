@@ -11,6 +11,9 @@ ENV PODDIE_TITLE=Podcasts \
 	S6_VERBOSITY=1
 
 # Install base packages
+ADD \
+	https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp \
+	/usr/local/bin/yt-dlp
 RUN \
 	apk add --no-cache \
 		aria2 \
@@ -24,7 +27,6 @@ RUN \
 	# pip dependencies
 	pip install -U \
 		niet \
-		yt-dlp \
 		podcats
 
 COPY --chmod=0755 /root/ /

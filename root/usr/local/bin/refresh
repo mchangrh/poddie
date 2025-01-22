@@ -9,7 +9,7 @@
 
 update_ytdlp() {
 	echo "poddie: Auto-updating software tools..."
-	pip install -U yt-dlp
+	yt-dlp --update-to master
 }
 
 download_audio() {
